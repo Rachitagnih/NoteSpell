@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import noteContext from '../context/notes/noteContext';
@@ -11,6 +11,14 @@ const Navbar = () => {
         setIsLoggedIn(false);
         Navigate("/login");
     }
+    const token = localStorage.getItem("token");
+
+    useEffect(() => {
+        if (!token) {
+            setIsLoggedIn(false);
+        }
+    }, [token, setIsLoggedIn]);
+    
     const location = useLocation();
     return (
         <>
@@ -34,8 +42,10 @@ const Navbar = () => {
                             </li>
                         </ul>
                         {localStorage.getItem("token") ? <button type="button" className="btn btn-primary mx-1" onClick={handleLogout}>Logout</button> :
-                            <div><Link to="/login"><button type="button" className="btn btn-primary mx-1">Login</button></Link>
-                                <Link to="/signup"><button type="button" className="btn btn-primary mx-1">Signup</button></Link></div>
+                            <div>
+                                <Link to="/login"><button type="button" className="btn btn-primary mx-1">Login</button></Link>
+                                <Link to="/signup"><button type="button" className="btn btn-primary mx-1">Signup</button></Link>
+                            </div>
                         }
                     </div>
                 </div>
