@@ -10,7 +10,7 @@ const About = () => {
 
     return (
         <div>
-            this is about
+            this is about section
         </div>    
     );
 };

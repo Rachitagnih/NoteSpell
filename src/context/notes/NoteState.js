@@ -6,6 +6,7 @@ const NoteState = (props) => {
     const notesInitial = [];
     const [notes, setNotes] = useState(notesInitial);
     const [alerts, setAlerts] = useState("");
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const fetchNotes = async() => {
         const response = await fetch(`${host}notes/getNotes`, {
             method: "GET",
@@ -13,8 +14,6 @@ const NoteState = (props) => {
                 "Content-Type": "application/json",
                 "auth-token": localStorage.getItem("token"),
             },
-
-            // body: JSON.stringify(data)
         },[]);
 
         const json = await response.json();
@@ -107,7 +106,7 @@ const NoteState = (props) => {
     }
 
     return (
-        <noteContext.Provider value={{ notes, addNote, deleteNote, editNote, fetchNotes, alerts, setAlerts}}>
+        <noteContext.Provider value={{ notes, addNote, deleteNote, editNote, fetchNotes, alerts, setAlerts, setIsLoggedIn, isLoggedIn}}>
             {props.children}
         </noteContext.Provider>
     )

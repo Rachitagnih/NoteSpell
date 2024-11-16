@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-
+import React, { useState, useContext} from 'react'
+import { useNavigate} from 'react-router-dom';
+import noteContext from '../context/notes/noteContext';
 const Signup = () => {
 
   const Navigate = useNavigate();
+  const context = useContext(noteContext);
+  const {setIsLoggedIn} = context;
   const [credentials, setCredentials] = useState({ name:"", email: "", password: "" });
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +24,7 @@ const Signup = () => {
       setCredentials(json);
       localStorage.setItem("token", json.authToken);
       Navigate("/");
+      setIsLoggedIn(true);
     }
     else {
       alert("wrong credentials");

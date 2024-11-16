@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-
+import noteContext from '../context/notes/noteContext';
 const Login = () => {
-    const Navigate=useNavigate();
+    const context = useContext(noteContext);
+    const { setIsLoggedIn } = context;
+    const Navigate = useNavigate();
     const [credentials, setCredentials] = useState({ email: "", password: "" });
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -11,18 +13,19 @@ const Login = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({email:credentials.email, password:credentials.password}),
+            body: JSON.stringify({ email: credentials.email, password: credentials.password }),
             // body: JSON.stringify(data)
         }, []);
 
         const json = await response.json();
         console.log(json);
-        if(json.success){
+        if (json.success) {
             setCredentials(json);
+            setIsLoggedIn(true);
             localStorage.setItem("token", json.authToken);
             Navigate("/");
         }
-        else{
+        else {
             alert("wrong credentials");
         }
     }
@@ -33,8 +36,8 @@ const Login = () => {
 
     return (
         <div className='container'>
-        <h1>Login To Your Account</h1>
-            <form  onSubmit={onSubmit}>
+            <h1>Login To Your Account</h1>
+            <form onSubmit={onSubmit}>
                 <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Email address</label>
                     <input type="email" className="form-control" id="email" name='email' aria-describedby="emailHelp" placeholder="Enter email" onChange={onChange} />

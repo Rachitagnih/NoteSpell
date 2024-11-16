@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import noteContext from '../context/notes/noteContext';
 const Navbar = () => {
+    const context = useContext(noteContext);
+    const {setIsLoggedIn} = context;
     const Navigate = useNavigate();
     const handleLogout = () => {
         localStorage.removeItem("token");
+        setIsLoggedIn(false);
         Navigate("/login");
     }
     const location = useLocation();
